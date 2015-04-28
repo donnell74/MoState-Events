@@ -34,7 +34,6 @@ public class Upcoming extends ListFragment {
         args.putInt("val", val);
         truitonList.setArguments(args);
 
-
         return truitonList;
     }
 
@@ -103,7 +102,7 @@ public class Upcoming extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Log.i("Truiton FragmentList", "Item clicked: " + id);
+        Log.i("favorites", upcomingEvents.get((int) id).toString());
     }
 
 }

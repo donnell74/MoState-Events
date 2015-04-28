@@ -15,20 +15,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import net.fortuna.ical4j.model.Component;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class Today extends ListFragment {
+public class Favorites extends ListFragment {
     int fragNum;
+    public ArrayList<CalendarEvent> upcomingEvents = new ArrayList<>();
+    public ArrayList<String> upcomingSummaries = new ArrayList<String>();
     private ArrayAdapter<String> arrayAdapter;
-    public ArrayList<CalendarEvent> todaysEvents = new ArrayList<CalendarEvent>();
-    public ArrayList<String> todaysSummaries = new ArrayList<String>();
 
-    static Today init(int val) {
-        Today truitonList = new Today();
+    static Favorites init(int val) {
+        Favorites truitonList = new Favorites();
 
         // Supply val input as an argument.
         Bundle args = new Bundle();
@@ -47,15 +45,13 @@ public class Today extends ListFragment {
         fragNum = getArguments() != null ? getArguments().getInt("val") : 1;
     }
 
-
-    // handler for received Intents for the "my-event" event
+    // handler for received Intents for the "allEventsNotify" event
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             initListElements();
         }
     };
-
 
     /**
      * The Fragment's UI is a simple text view showing its instance number and
@@ -64,7 +60,7 @@ public class Today extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View layoutView = inflater.inflate(R.layout.today,
+        View layoutView = inflater.inflate(R.layout.suggest,
                 container, false);
 
         // Register mMessageReceiver to receive messages.
@@ -74,27 +70,16 @@ public class Today extends ListFragment {
         return layoutView;
     }
 
-
     public void initListElements() {
         if (MainActivity.allEvents.size() > 1) {
-            DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-            java.util.Date date = new java.util.Date();
-            String todaysDate = dateFormat.format(date);
-
             for (CalendarEvent eachEvent : MainActivity.allEvents) {
-                if ( eachEvent.getStart().startsWith(todaysDate) ) {
-                    todaysSummaries.add(eachEvent.getSummary());
-                    todaysEvents.add(eachEvent);
+                if ( eachEvent.isFavorited() ) {
+                    upcomingSummaries.add(eachEvent.getSummary());
+                    upcomingEvents.add(eachEvent);
                 }
             }
 
-            if ( arrayAdapter != null ) {
-                arrayAdapter.notifyDataSetChanged();
-            } else {
-                arrayAdapter = new ArrayAdapter<String>(getActivity(),
-                        android.R.layout.simple_list_item_1, todaysSummaries);
-                setListAdapter(arrayAdapter);
-            }
+            arrayAdapter.notifyDataSetChanged();
         }
     }
 
@@ -103,12 +88,12 @@ public class Today extends ListFragment {
         super.onActivityCreated(savedInstanceState);
 
         arrayAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1, todaysSummaries);
+                android.R.layout.simple_list_item_1, upcomingSummaries);
         setListAdapter(arrayAdapter);
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Log.i("favorites", todaysEvents.get((int) id).toString());
+        Log.i("favorites", upcomingEvents.get((int) id).toString());
     }
 }
