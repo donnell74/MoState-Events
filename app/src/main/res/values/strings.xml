@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">MoEvents</string>
-
+    <string name="EventString">Event</string>
+    <string name="DescriptionString">Description</string>
+    <string name="OrganizationString">Organization</string>
+    <string name="TimeString">Time</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 </resources>

@@ -7,14 +7,11 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import net.fortuna.ical4j.model.Component;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -103,7 +100,9 @@ public class Upcoming extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Log.i("Truiton FragmentList", "Item clicked: " + id);
+        Intent detailIntent = new Intent(getActivity(), ItemDetailActivity.class);
+        detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, id);
+        startActivity(detailIntent);
     }
 
 }

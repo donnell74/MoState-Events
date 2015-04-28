@@ -23,7 +23,7 @@ public class CalendarEvent {
     private final String KEY_URL = "URL";
 
     public CalendarEvent(Component component) {
-        Log.i("calendarEvent", component.toString());
+        //Log.i("calendarEvent", component.toString());
         location = component.getProperty(KEY_LOCATION).toString().split(":")[1];
         summary = component.getProperty(KEY_SUMMARY).toString().split(":")[1];
         description = component.getProperty(KEY_DESCRIPTION).toString().split(":")[1];
