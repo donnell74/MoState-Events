@@ -31,6 +31,7 @@ public class ItemDetailActivity extends ActionBarActivity {
     private TextView mEventTV;
     private TextView mDescTV;
     private TextView mTimeTV;
+    private TextView mLocTV;
 
 
     @Override
@@ -46,11 +47,13 @@ public class ItemDetailActivity extends ActionBarActivity {
 
         mEventTV = (TextView) findViewById(R.id.EventText);
         mDescTV = (TextView) findViewById(R.id.DescriptionText);
+        mLocTV = (TextView) findViewById(R.id.LocationText);
         mTimeTV = (TextView) findViewById(R.id.TimeText);
 
         if ( mEvent != null ) {
             mEventTV.setText(mEvent.getSummary());
             mDescTV.setText(mEvent.getDescription());
+            mLocTV.setText(mEvent.getLocation());
 
             DateFormat m_ISO8601Local = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
             try {
