@@ -3,9 +3,11 @@ package com.example.id.moevents;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 
@@ -23,6 +25,10 @@ public class ItemDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
     public static long item_id;
     GoogleMap googleMap;
+    private CalendarEvent mEvent = null;
+    private TextView mEventTV;
+    private TextView mDescTV;
+    private TextView mTimeTV;
     /**
      * The dummy content this fragment is presenting.
      */
@@ -38,12 +44,6 @@ public class ItemDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-        }
     }
 
     @Override

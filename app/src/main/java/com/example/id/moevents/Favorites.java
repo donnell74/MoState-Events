@@ -94,6 +94,9 @@ public class Favorites extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Log.i("favorites", upcomingEvents.get((int) id).toString());
+        CalendarEvent event = upcomingEvents.get((int) id);
+        Intent detailIntent = new Intent(getActivity(), ItemDetailActivity.class);
+        detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, event.getId());
+        startActivity(detailIntent);
     }
 }

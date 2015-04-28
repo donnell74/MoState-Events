@@ -109,6 +109,9 @@ public class Today extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Log.i("favorites", todaysEvents.get((int) id).toString());
+        CalendarEvent event = todaysEvents.get((int) id);
+        Intent detailIntent = new Intent(getActivity(), ItemDetailActivity.class);
+        detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, event.getId());
+        startActivity(detailIntent);
     }
 }

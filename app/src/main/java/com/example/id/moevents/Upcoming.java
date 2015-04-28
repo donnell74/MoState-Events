@@ -100,10 +100,10 @@ public class Upcoming extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
+        CalendarEvent event = upcomingEvents.get((int) id);
         Intent detailIntent = new Intent(getActivity(), ItemDetailActivity.class);
-        detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, id);
+        detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, event.getId());
         startActivity(detailIntent);
-        Log.i("favorites", upcomingEvents.get((int) id).toString());
     }
 
 }

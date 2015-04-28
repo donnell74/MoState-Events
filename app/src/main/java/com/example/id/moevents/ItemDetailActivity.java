@@ -7,6 +7,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 
 /**
@@ -22,7 +27,10 @@ public class ItemDetailActivity extends ActionBarActivity {
 
     public static FragmentManager fragmentManager;
 
-
+    private CalendarEvent mEvent = null;
+    private TextView mEventTV;
+    private TextView mDescTV;
+    private TextView mTimeTV;
 
 
     @Override
@@ -33,25 +41,32 @@ public class ItemDetailActivity extends ActionBarActivity {
         fragmentManager =  getSupportFragmentManager();
 
         // Show the Up button in the action bar.
+        int id = getIntent().getIntExtra(ItemDetailFragment.ARG_ITEM_ID, 0);
+        mEvent = MainActivity.allEvents.get(id);
 
-        // savedInstanceState is non-null when there is fragment state
-        // saved from previous configurations of this activity
-        // (e.g. when rotating the screen from portrait to landscape).
-        // In this case, the fragment will automatically be re-added
-        // to its container so we don't need to manually add it.
-        // For more information, see the Fragments API guide at:
-        //
-        // http://developer.android.com/guide/components/fragments.html
-        //
+        mEventTV = (TextView) findViewById(R.id.EventText);
+        mDescTV = (TextView) findViewById(R.id.DescriptionText);
+        mTimeTV = (TextView) findViewById(R.id.TimeText);
+
+        if ( mEvent != null ) {
+            mEventTV.setText(mEvent.getSummary());
+            mDescTV.setText(mEvent.getDescription());
+
+            DateFormat m_ISO8601Local = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
+            try {
+                String time = m_ISO8601Local.parse(mEvent.getStart()).toString();
+                time += " - ";
+                time += m_ISO8601Local.parse(mEvent.getEnd()).toString();
+                mTimeTV.setText(time);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
 
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putLong(ItemDetailFragment.ARG_ITEM_ID,
-                    getIntent().getLongExtra(ItemDetailFragment.ARG_ITEM_ID, 0));
             ItemDetailFragment fragment = new ItemDetailFragment();
-            fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.item_detail_container, fragment)
                     .commit();
