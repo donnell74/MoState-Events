@@ -4,16 +4,21 @@ import android.util.Log;
 
 import net.fortuna.ical4j.model.Component;
 
+import java.util.Random;
+
 /**
  * Created by greg on 4/9/15.
  */
 public class CalendarEvent {
+    private int id;
     private String location;
     private String summary;
     private String description;
     private String start;
     private String end;
     private String url;
+    private Boolean favorited;
+    private double distance;
 
     private final String KEY_LOCATION = "LOCATION";
     private final String KEY_SUMMARY = "SUMMARY";
@@ -22,15 +27,23 @@ public class CalendarEvent {
     private final String KEY_END = "DTEND";
     private final String KEY_URL = "URL";
 
-    public CalendarEvent(Component component) {
+
+    public CalendarEvent(int id, Component component) {
         //Log.i("calendarEvent", component.toString());
+        this.id = id;
         location = component.getProperty(KEY_LOCATION).toString().split(":")[1];
         summary = component.getProperty(KEY_SUMMARY).toString().split(":")[1];
         description = component.getProperty(KEY_DESCRIPTION).toString().split(":")[1];
         start = component.getProperty(KEY_START).toString().split(":")[1];
         end = component.getProperty(KEY_END).toString().split(":")[1];
         url = component.getProperty(KEY_URL).toString().split(":")[1];
+        Random random = new Random();
+        favorited = random.nextBoolean();
     }
+
+    public Boolean isFavorited() { return favorited; }
+
+    public void setFavorite() { favorited = true; }
 
     public String getLocation() {
         return location;
@@ -83,18 +96,13 @@ public class CalendarEvent {
     @Override
     public String toString() {
         return "CalendarEvent{" +
-                "location='" + location + '\'' +
+                "id='" + id + '\'' +
+                ", location='" + location + '\'' +
                 ", summary='" + summary + '\'' +
                 ", description='" + description + '\'' +
                 ", start='" + start + '\'' +
                 ", end='" + end + '\'' +
                 ", url='" + url + '\'' +
-                ", KEY_LOCATION='" + KEY_LOCATION + '\'' +
-                ", KEY_SUMMARY='" + KEY_SUMMARY + '\'' +
-                ", KEY_DESCRIPTION='" + KEY_DESCRIPTION + '\'' +
-                ", KEY_START='" + KEY_START + '\'' +
-                ", KEY_END='" + KEY_END + '\'' +
-                ", KEY_URL='" + KEY_URL + '\'' +
                 '}';
     }
 }

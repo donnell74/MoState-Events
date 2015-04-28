@@ -34,7 +34,7 @@ public class MainActivity extends ActionBarActivity {
     ViewPager pager;
     ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
-    CharSequence Titles[]={"Today","Upcoming", "Suggested"};
+    CharSequence Titles[]={"Today","Upcoming", "Favorites"};
     int Numboftabs =3;
     static public List<CalendarEvent> allEvents = new ArrayList<CalendarEvent>();
 
@@ -54,7 +54,7 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, File response) {
                         // Do something with the file `response`
-                        Log.i("get success", mFile.toString());
+                        //Log.i("get success", mFile.toString());
 
                         FileInputStream fin = null;
                         try {
@@ -65,8 +65,8 @@ public class MainActivity extends ActionBarActivity {
 
                             List<Component> components = calendar.getComponents("VEVENT");
 
-                            for (Component each_component : components) {
-                                MainActivity.allEvents.add(new CalendarEvent(each_component));
+                            for (int j = 0; j < components.size(); ++j) {
+                                MainActivity.allEvents.add(new CalendarEvent(j, components.get(j)));
                             }
 
                             Intent intent = new Intent("allEventsNotify");
@@ -90,6 +90,7 @@ public class MainActivity extends ActionBarActivity {
 
         pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
+        pager.setOffscreenPageLimit(3);
 
         tabs = (SlidingTabLayout) findViewById(R.id.tabs);
         tabs.setDistributeEvenly(true);
@@ -119,9 +120,5 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
 
-    }
-
-    public interface allEventsNotifyListener {
-        public void allEventsNotify();
     }
 }

@@ -4,6 +4,7 @@ package com.example.id.moevents;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -23,10 +24,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     //This method return the fragment for the every position in the View Pager
     @Override
     public Fragment getItem(int position) {
-
         if(position == 0)
         {
-            Today today1 = new Today();
+            Today today1 = Today.init(position);
             today1.initListElements();
             return today1;
         }
@@ -36,8 +36,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         }
         else
         {
-            Suggest suggest1 = new Suggest();
-            return suggest1;
+            return Favorites.init(position);
         }
 
 

@@ -27,8 +27,8 @@ public class Today extends ListFragment {
     public ArrayList<CalendarEvent> todaysEvents = new ArrayList<CalendarEvent>();
     public ArrayList<String> todaysSummaries = new ArrayList<String>();
 
-    static Upcoming init(int val) {
-        Upcoming truitonList = new Upcoming();
+    static Today init(int val) {
+        Today truitonList = new Today();
 
         // Supply val input as an argument.
         Bundle args = new Bundle();
@@ -88,7 +88,13 @@ public class Today extends ListFragment {
                 }
             }
 
-            arrayAdapter.notifyDataSetChanged();
+            if ( arrayAdapter != null ) {
+                arrayAdapter.notifyDataSetChanged();
+            } else {
+                arrayAdapter = new ArrayAdapter<String>(getActivity(),
+                        android.R.layout.simple_list_item_1, todaysSummaries);
+                setListAdapter(arrayAdapter);
+            }
         }
     }
 
@@ -103,6 +109,6 @@ public class Today extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Log.i("Truiton FragmentList", "Item clicked: " + id);
+        Log.i("favorites", todaysEvents.get((int) id).toString());
     }
 }
