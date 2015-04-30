@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.text.BoringLayout;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -32,7 +35,7 @@ public class ItemDetailActivity extends ActionBarActivity {
     private TextView mDescTV;
     private TextView mTimeTV;
     private TextView mLocTV;
-
+    private Button mFavBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class ItemDetailActivity extends ActionBarActivity {
         mDescTV = (TextView) findViewById(R.id.DescriptionText);
         mLocTV = (TextView) findViewById(R.id.LocationText);
         mTimeTV = (TextView) findViewById(R.id.TimeText);
+        mFavBtn = (Button) findViewById(R.id.favBtn);
 
         if ( mEvent != null ) {
             mEventTV.setText(mEvent.getSummary());
@@ -64,6 +68,23 @@ public class ItemDetailActivity extends ActionBarActivity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+
+            if ( mEvent.isFavorited() ) {
+                mFavBtn.setText(getString(R.string.unfavorite));
+            }
+
+            mFavBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Boolean isFav = ! mEvent.isFavorited();
+                    mEvent.setFavorite(isFav);
+                    if ( isFav ) {
+                        mFavBtn.setText(getString(R.string.unfavorite));
+                    } else {
+                        mFavBtn.setText(getString(R.string.favorite));
+                    }
+                }
+            });
         }
 
         if (savedInstanceState == null) {

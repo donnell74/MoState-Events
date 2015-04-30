@@ -4,7 +4,9 @@
     <string name="DescriptionString">Description</string>
     <string name="OrganizationString">Organization</string>
     <string name="LocationString">Location</string>
-    <string name="TimeString">Time</string>
+    <string name="TimeString">All Day</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="favorite">Favorite</string>
+    <string name="unfavorite">Unfavorite</string>
 </resources>

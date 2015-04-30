@@ -1,10 +1,6 @@
 package com.example.id.moevents;
 
-import android.util.Log;
-
 import net.fortuna.ical4j.model.Component;
-
-import java.util.Random;
 
 /**
  * Created by greg on 4/9/15.
@@ -17,8 +13,8 @@ public class CalendarEvent {
     private String start;
     private String end;
     private String url;
-    private Boolean favorited;
-    private double distance;
+    private Boolean favorited = false;
+    private double distance = 0.0;
 
     private final String KEY_LOCATION = "LOCATION";
     private final String KEY_SUMMARY = "SUMMARY";
@@ -37,8 +33,6 @@ public class CalendarEvent {
         start = component.getProperty(KEY_START).toString().split(":")[1];
         end = component.getProperty(KEY_END).toString().split(":")[1];
         url = component.getProperty(KEY_URL).toString().split(":")[1];
-        Random random = new Random();
-        favorited = random.nextBoolean();
     }
 
     public int getId() {
@@ -51,7 +45,7 @@ public class CalendarEvent {
 
     public Boolean isFavorited() { return favorited; }
 
-    public void setFavorite() { favorited = true; }
+    public void setFavorite(Boolean val) { favorited = val; }
 
     public String getLocation() {
         return location;

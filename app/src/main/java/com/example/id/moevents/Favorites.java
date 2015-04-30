@@ -71,6 +71,8 @@ public class Favorites extends ListFragment {
     }
 
     public void initListElements() {
+        upcomingEvents.clear();
+        upcomingSummaries.clear();
         if (MainActivity.allEvents.size() > 1) {
             for (CalendarEvent eachEvent : MainActivity.allEvents) {
                 if ( eachEvent.isFavorited() ) {
@@ -81,6 +83,12 @@ public class Favorites extends ListFragment {
 
             arrayAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initListElements();
     }
 
     @Override

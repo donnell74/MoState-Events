@@ -23,12 +23,6 @@ public class ItemDetailFragment extends Fragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
-    public static long item_id;
-    GoogleMap googleMap;
-    private CalendarEvent mEvent = null;
-    private TextView mEventTV;
-    private TextView mDescTV;
-    private TextView mTimeTV;
     /**
      * The dummy content this fragment is presenting.
      */
