@@ -1,14 +1,22 @@
 package com.example.id.moevents;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
@@ -43,46 +51,6 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://missouristate.info/feeds/calendar.aspx?recurrences=none&timespan=future&campus=s&alt=ical",
-                new FileAsyncHttpResponseHandler(this) {
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                        // Failed to download
-                    }
-
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, File response) {
-                        // Do something with the file `response`
-                        //Log.i("get success", mFile.toString());
-
-                        FileInputStream fin = null;
-                        try {
-                            fin = new FileInputStream(mFile);
-                            CalendarBuilder builder = new CalendarBuilder();
-
-                            Calendar calendar = builder.build(fin);
-
-                            List<Component> components = calendar.getComponents("VEVENT");
-
-                            for (int j = 0; j < components.size(); ++j) {
-                                MainActivity.allEvents.add(new CalendarEvent(j, components.get(j)));
-                            }
-
-                            Intent intent = new Intent("allEventsNotify");
-                            // add data
-                            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (ParserException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-
-
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
@@ -102,6 +70,43 @@ public class MainActivity extends ActionBarActivity {
             }
         });
         tabs.setViewPager(pager);
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get("http://missouristate.info/feeds/calendar.aspx?recurrences=none&timespan=future&campus=s&alt=ical",
+            new FileAsyncHttpResponseHandler(getApplicationContext()) {
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                    // Failed to download
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, File response) {
+                    // Do something with the file `response`
+                    //Log.i("get success", mFile.toString());
+                    FileInputStream fin = null;
+                    try {
+                        fin = new FileInputStream(mFile);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    CalendarBuilder builder = new CalendarBuilder();
+
+                    Calendar calendar = null;
+                    try {
+                        calendar = builder.build(fin);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ParserException e) {
+                        e.printStackTrace();
+                    }
+
+                    List<Component> components = calendar.getComponents("VEVENT");
+
+                    new GetICalFeedTask().execute(components);
+                }
+            }
+        );
     }
 
 
@@ -121,4 +126,22 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
 
     }
+
+    public class GetICalFeedTask extends AsyncTask<Object, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Object[] objects) {
+            List<Component> components = (List<Component>) objects[0];
+
+            for (int j = 0; j < components.size(); ++j) {
+                MainActivity.allEvents.add(new CalendarEvent(j, components.get(j)));
+            }
+
+            Intent intent = new Intent("allEventsNotify");
+            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+
+            return null;
+        }
+    }
+
 }
