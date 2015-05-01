@@ -3,5 +3,7 @@
     <color name="ColorPrimary">#5E0009</color>
     <color name="ColorPrimaryDark">#7E333A</color>
     <color name="tabsScrollColor">#ff8a8986</color>
-
+    <color name="green">#00FF00</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="red">#FF0000</color>
 </resources>

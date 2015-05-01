@@ -49,4 +49,12 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/TimeString"
         android:id="@+id/TimeText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/TravelString"
+        android:id="@+id/TravelText" />
+
 </LinearLayout>
