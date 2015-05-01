@@ -47,6 +47,7 @@ public class ItemDetailActivity extends ActionBarActivity {
         // Show the Up button in the action bar.
         int id = getIntent().getIntExtra(ItemDetailFragment.ARG_ITEM_ID, 0);
         mEvent = MainActivity.allEvents.get(id);
+        MapFragment.event = mEvent;
 
         mEventTV = (TextView) findViewById(R.id.EventText);
         mDescTV = (TextView) findViewById(R.id.DescriptionText);
